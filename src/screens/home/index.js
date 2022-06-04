@@ -7,7 +7,6 @@ import TvShowsApi from '../../api/tvshows'
 const Home = () => {
   const navigate = useNavigate();
   const [select, setSelect] = useState(1);
-  // const [append, setAppend] = useState(false)
   const [option, setOption] = useState("movies");
   const [data, setData] = useState([])
 
@@ -15,7 +14,7 @@ const Home = () => {
     if (option === "movies") {
       switch (select) {
         case 1:
-          MoviesApi.getNowPlaying()
+          MoviesApi.getNowPlaying(append)
             .then((res) => {
               setData((data) => {
                 if (append) {
@@ -30,7 +29,7 @@ const Home = () => {
           break;
 
         case 2:
-          MoviesApi.getPopular().then((res) => {
+          MoviesApi.getPopular(append).then((res) => {
             setData((data) => {
               if (append) {
                 let newData = [...data]
@@ -44,7 +43,7 @@ const Home = () => {
           break;
 
         case 3:
-          MoviesApi.getTopRated().then((res) => {
+          MoviesApi.getTopRated(append).then((res) => {
             setData((data) => {
               if (append) {
                 let newData = [...data]
@@ -57,7 +56,7 @@ const Home = () => {
           break;
 
         case 4:
-          MoviesApi.getUpcoming().then((res) => {
+          MoviesApi.getUpcoming(append).then((res) => {
             setData((data) => {
               if (append) {
                 let newData = [...data]
@@ -72,7 +71,7 @@ const Home = () => {
     } else {
       switch (select) {
         case 2:
-          TvShowsApi.getPopular()
+          TvShowsApi.getPopular(append)
             .then((res) => {
               setData((data) => {
                 if (append) {
@@ -85,7 +84,7 @@ const Home = () => {
             }).catch((err) => { console.log(err) })
           break;
         case 3:
-          TvShowsApi.getTopRated().then((res) => {
+          TvShowsApi.getTopRated(append).then((res) => {
             setData((data) => {
               if (append) {
                 let newData = [...data]
@@ -97,7 +96,7 @@ const Home = () => {
           }).catch((err) => { console.log(err) })
           break;
         case 4:
-          TvShowsApi.getOnTheAir().then((res) => {
+          TvShowsApi.getOnTheAir(append).then((res) => {
             setData((data) => {
               if (append) {
                 let newData = [...data]
@@ -177,14 +176,13 @@ const Home = () => {
 
   useEffect(() => {
     console.log("select effect");
+    if (option === "movies")
+      MoviesApi.page = 1;
+    else
+      TvShowsApi.page = 1;
+
     makeRequest();
-
   }, [select])
-  useEffect(() => {
-    console.log("DATA", data);
-
-  }, [data])
-
 
   return (
     <div className='screen home-screen'>

@@ -16,12 +16,12 @@ class Request {
     ) {
         return axios({
             method: method,
-            url: `${this.DefaultSettings.Protocol}://${this.DefaultSettings.BaseUrl}${url}?api_key=${process.env.REACT_APP_API_KEY}&page=${page}`,
+            url: `${this.DefaultSettings.Protocol}://${this.DefaultSettings.BaseUrl}${url}?api_key=${process.env.REACT_APP_API_KEY}${page!=null? `&page=${page}` : "" }`,
             data: data
         });
     }
 
-    static get(url = {}, page) {
+    static get(url = {}, page=null) {
         console.log("Page",page);
         return this.basic("GET", url, page);
     }

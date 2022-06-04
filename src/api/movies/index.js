@@ -8,17 +8,26 @@ class MoviesApi {
     static getMovie(id) {
         return Request.get(`${this.path}/${id}`);
     }
-    static getPopular() {
-        return Request.get(`${this.path}/popular`, this.page);
+    static getPopular(append = false) {
+        if (append)
+            return Request.get(`${this.path}/popular`, this.page);
+        return Request.get(`${this.path}/popular`);
     }
-    static getTopRated() {
-        return Request.get(`${this.path}/top_rated`, this.page);
+    static getTopRated(append = false) {
+        if (append)
+            return Request.get(`${this.path}/top_rated`, this.page);
+        return Request.get(`${this.path}/top_rated`);
     }
-    static getNowPlaying() {
-        return Request.get(`${this.path}/now_playing`, this.page);
+    static getNowPlaying(append = false) {
+        if (append)
+            return Request.get(`${this.path}/now_playing`, this.page);
+        return Request.get(`${this.path}/now_playing`);
+
     }
-    static getUpcoming() {
-        return Request.get(`${this.path}/upcoming`, this.page);
+    static getUpcoming(append = false) {
+        if (append)
+            return Request.get(`${this.path}/upcoming`, this.page);
+        return Request.get(`${this.path}/upcoming`);
     }
 }
 
