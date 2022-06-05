@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
 import Star from "../../assets/images/star.png"
+import Dots from "../../assets/images/dots.png"
 
 const Card = ({ data }) => {
-    if(data.video)
-    console.log(data);
+
+    if (data.video)
+        console.log(data);
     // else console.log("nista");
     const navigate = useNavigate();
     return (
@@ -21,6 +23,7 @@ const Card = ({ data }) => {
             <div className="card" >
                 <div className="img-wrapper">
                     <img className='img' alt='card-img' src={`${process.env.REACT_APP_BACKEND_IMG_URL}/${data?.poster_path}`} />
+
                     <div className="reviews"
                         style={{ color: data?.vote_average > 6.5 ? "#01d277" : "#D72323" }}>
                         <img src={Star} alt="star" className='star' />
@@ -28,6 +31,7 @@ const Card = ({ data }) => {
                     </div>
                 </div>
                 <div className="card-details">
+
                     <div className="title">
                         {data.title ? data.title : data.name}
 
