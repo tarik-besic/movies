@@ -3,64 +3,89 @@
     flex-direction: column;
     align-items: center;
     background-color: $dark;
+
     .cover {
         width: 100%;
         height: 440px;
 
         .cover-img {
-            object-fit:cover;
+            object-fit: cover;
             width: 100%;
             height: 100%;
             box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
         }
     }
-    .movie-wrapper{
+
+    .movie-wrapper {
         display: flex;
         align-items: center;
-        .movie{
-            position: relative;
-            min-width: 200px;
-            min-height: 350px;
-            max-height: 300px;
-            border: 1px solid black;
-            img{
-                position: absolute;
-                height: 100%;
+        .img-wrapper{
+            max-width: 200px;
+            img {
+                width: 200px;
+                max-width: 200px;
+                max-height: 350p;
+                height: 350px;
+            }
+    
+            .favorite {
+                font-size: 18px;
+                font-weight: bold;
+                padding: 10px;
+                background-color: $light-purple;
                 width: 100%;
+                text-align: center;
+                border-radius: 5px;
+                // margin-top: 10px;
+                cursor: pointer;
+            }
+            .added{
+                background-color: $light-gray;
             }
         }
-        .movie-info{
+
+        .movie-info {
             margin: 10px 2%;
-            .movie-title{
+
+            .movie-title {
                 font-size: 40px;
                 font-weight: bold;
                 color: $light-purple;
+
+                img {
+                    margin-left: 10px;
+                }
             }
-            .movie-overview{
+
+            .movie-overview {
                 margin-bottom: 10px;
                 max-width: 600px;
                 font-size: 18px;
                 color: white;
                 font-weight: 400;
             }
-            .movie-details{
+
+            .movie-details {
                 display: flex;
                 height: 200px;
-                .info{
+
+                .info {
                     color: $light-purple;
                     font-weight: bold;
                     font-size: 20px;
                 }
-                .flex-right{
+
+                .flex-right {
                     width: 50%;
                     color: white;
                 }
-                .flex-left{
+
+                .flex-left {
                     width: 50%;
                     color: white;
                 }
             }
-            
+
         }
     }
 }

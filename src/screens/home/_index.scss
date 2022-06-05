@@ -15,21 +15,14 @@
             color: gray;
             align-items: center;
 
-            .movies {
-                cursor: pointer;
-                padding: 5px;
-                font-size: 18px;
-                font-weight: bold;
-            }
-
-            .tv-shows {
+            .header-link {
                 cursor: pointer;
                 padding: 5px;
                 font-size: 18px;
                 font-weight: bold;
             }
         }
-        .login{
+        .btn{
             background-color: rgb(1, 210, 119);
             padding: 5px 10px;
             border-radius: 5px;
@@ -38,6 +31,16 @@
             color: black;
             cursor: pointer;
         }
+        .btn-red{
+            background-color: rgb(208, 65, 54);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            color: black;
+            cursor: pointer;
+        }
+
     }
 
     .content {

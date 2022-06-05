@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Card from '../../components/card'
 import MoviesApi from "../../api/movies"
 import TvShowsApi from '../../api/tvshows'
+import MyContext from '../../context/index'
+import FavoritesApi from '../../api/favorites'
 
 const Home = () => {
   const navigate = useNavigate();
+  const { session_id, logout } = useContext(MyContext);
+  // console.log(context)
   const [select, setSelect] = useState(1);
   const [option, setOption] = useState("movies");
   const [data, setData] = useState([])
@@ -68,7 +72,7 @@ const Home = () => {
           }).catch((err) => { console.log(err) })
           break;
       }
-    } else {
+    } else if (option === "shows") {
       switch (select) {
         case 2:
           TvShowsApi.getPopular(append)
@@ -108,6 +112,9 @@ const Home = () => {
           }).catch((err) => { console.log(err) })
           break;
       }
+    }
+    else {
+      FavoritesApi.get(session_id)
     }
   }
 
@@ -163,14 +170,34 @@ const Home = () => {
       </div>
     </>
   }
+  const renderFavoritesOptions = () => {
+    return <>
+      <div className={`link ${select === 1 ? `active` : ''}`}
+        onClick={() => {
+          setSelect(1)
+        }}>
+        Movies
+      </div>
+      <div className={`link ${select === 2 ? `active` : ''}`}
+        onClick={() => {
+          setSelect(2)
+        }}>
+        Tv Shows
+      </div>
+    </>
+  }
   useEffect(() => {
     if (option === "movies") {
       MoviesApi.getNowPlaying().then((res) => { setData(res.data.results) }).catch((err) => { console.log(err) })
       setSelect(1)
     }
-    else {
+    else if (option === "shows") {
       setSelect(2)
       TvShowsApi.getPopular().then((res) => { setData(res.data.results) }).catch((err) => { console.log(err) })
+    }
+    else {
+      setSelect(1);
+      FavoritesApi.getFavorites('movies',session_id).then((res) => { setData(res.data.results) }).catch((err) => { console.log(err) })
     }
   }, [option])
 
@@ -178,9 +205,10 @@ const Home = () => {
     console.log("select effect");
     if (option === "movies")
       MoviesApi.page = 1;
-    else
+    else if (option === "shows")
       TvShowsApi.page = 1;
-
+    else
+      console.log("Favorites page 1")
     makeRequest();
   }, [select])
 
@@ -188,16 +216,25 @@ const Home = () => {
     <div className='screen home-screen'>
       <div className='header'>
         <div className="links">
-          <div className={`movies ${option === "movies" ? "active" : ''}`} onClick={() => setOption("movies")}>Movies</div>
-          <div className={`tv-shows ${option === "shows" ? "active" : ''}`} onClick={() => setOption("shows")}>Tv Shows</div>
+          <div className={`header-link ${option === "movies" ? "active" : ''}`} onClick={() => setOption("movies")}>Movies</div>
+          <div className={`header-link ${option === "shows" ? "active" : ''}`} onClick={() => setOption("shows")}>Tv Shows</div>
+          {session_id
+            && <div
+              className={`header-link ${option === "favorites" ? "active" : ''}`}
+              onClick={() => setOption("favorites")}>
+              Favorites
+            </div>
+          }
         </div>
 
-        <div className="login" onClick={() => { navigate("/login") }}>Login</div>
-        {/* <div className="login">Login</div>
-        <div className="logout">Logout</div> */}
+        <h5 style={{ color: "#fff" }}>{session_id}</h5>
+        {session_id
+          ? <div className="btn-red" onClick={logout}>Logout</div>
+          : <div className="btn" onClick={() => { navigate("/login") }}>Login</div>
+        }
       </div>
       <div className="tabbar">
-        {option === "movies" ? renderMovieOptions() : renderShowOptions()}
+        {option === "movies" ? renderMovieOptions() : option==="shows" ? renderShowOptions() : session_id && renderFavoritesOptions()}
       </div>
 
       <div className="content">

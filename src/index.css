@@ -129,22 +129,25 @@ body {
           align-items: center;
 }
 
-.home-screen .header .links .movies {
+.home-screen .header .links .header-link {
   cursor: pointer;
   padding: 5px;
   font-size: 18px;
   font-weight: bold;
 }
 
-.home-screen .header .links .tv-shows {
-  cursor: pointer;
-  padding: 5px;
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.home-screen .header .login {
+.home-screen .header .btn {
   background-color: #01d277;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  color: black;
+  cursor: pointer;
+}
+
+.home-screen .header .btn-red {
+  background-color: #d04136;
   padding: 5px 10px;
   border-radius: 5px;
   font-size: 16px;
@@ -212,18 +215,30 @@ body {
           align-items: center;
 }
 
-.movie-info-screen .movie-wrapper .movie {
-  position: relative;
-  min-width: 200px;
-  min-height: 350px;
-  max-height: 300px;
-  border: 1px solid black;
+.movie-info-screen .movie-wrapper .img-wrapper {
+  max-width: 200px;
 }
 
-.movie-info-screen .movie-wrapper .movie img {
-  position: absolute;
-  height: 100%;
+.movie-info-screen .movie-wrapper .img-wrapper img {
+  width: 200px;
+  max-width: 200px;
+  max-height: 350p;
+  height: 350px;
+}
+
+.movie-info-screen .movie-wrapper .img-wrapper .favorite {
+  font-size: 18px;
+  font-weight: bold;
+  padding: 10px;
+  background-color: #8a6eff;
   width: 100%;
+  text-align: center;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.movie-info-screen .movie-wrapper .img-wrapper .added {
+  background-color: #4a4658;
 }
 
 .movie-info-screen .movie-wrapper .movie-info {
@@ -234,6 +249,10 @@ body {
   font-size: 40px;
   font-weight: bold;
   color: #8a6eff;
+}
+
+.movie-info-screen .movie-wrapper .movie-info .movie-title img {
+  margin-left: 10px;
 }
 
 .movie-info-screen .movie-wrapper .movie-info .movie-overview {
