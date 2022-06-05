@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState,useContext } from "react";
+import { createContext, useEffect, useState, useContext } from "react";
 import FavoritesApi from "../api/favorites";
 
 const Context = createContext({
@@ -20,24 +20,37 @@ export function ContextProvider({ children }) {
     }, []);
 
     useEffect(() => {
-      
-    if(session_id){
-        FavoritesApi.getFavorites('movies',session_id).then((res)=>{
-            setFavorites(()=>{
-                return res.data.results.map((item)=>{
-                    return item.id
+
+        if (session_id) {
+            FavoritesApi.getFavorites('movies', session_id).then((res) => {
+                setFavorites((favorites) => {
+                    const newData = [...favorites]
+                    const arr2 = res.data.results.map((item) => {
+                        return item.id
+                    })
+                    Array.prototype.push.apply(newData, arr2);
+                    return newData
                 })
             })
-        })
-    }
-      
+            FavoritesApi.getFavorites('tv', session_id).then((res) => {
+                setFavorites((favorites) => {
+                    const newData = [...favorites]
+                    const arr2 = res.data.results.map((item) => {
+                        return item.id
+                    })
+                    Array.prototype.push.apply(newData, arr2);
+                    return newData
+                })
+            })
+        }
+
     }, [session_id])
-    
+
     const logout = () => {
         setSession_id(localStorage.removeItem('session_id'))
         setFavorites([])
     }
 
-    return <Context.Provider value={{ session_id, logout,favorites }}>{children}</Context.Provider>;
+    return <Context.Provider value={{ session_id, logout, favorites }}>{children}</Context.Provider>;
 }
 export default Context;

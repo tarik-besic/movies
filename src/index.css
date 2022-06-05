@@ -285,4 +285,112 @@ body {
   width: 50%;
   color: white;
 }
+
+.show-info-screen {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: #1c1b24;
+}
+
+.show-info-screen .cover {
+  width: 100%;
+  height: 440px;
+}
+
+.show-info-screen .cover .cover-img {
+  -o-object-fit: cover;
+     object-fit: cover;
+  width: 100%;
+  height: 100%;
+  -webkit-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+          box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.show-info-screen .show-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.show-info-screen .show-wrapper .img-wrapper {
+  max-width: 200px;
+}
+
+.show-info-screen .show-wrapper .img-wrapper img {
+  width: 200px;
+  max-width: 200px;
+  max-height: 350p;
+  height: 350px;
+}
+
+.show-info-screen .show-wrapper .img-wrapper .favorite {
+  font-size: 18px;
+  font-weight: bold;
+  padding: 10px;
+  background-color: #8a6eff;
+  width: 100%;
+  text-align: center;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.show-info-screen .show-wrapper .img-wrapper .added {
+  background-color: #4a4658;
+}
+
+.show-info-screen .show-wrapper .show-info {
+  margin: 10px 2%;
+}
+
+.show-info-screen .show-wrapper .show-info .show-title {
+  font-size: 40px;
+  font-weight: bold;
+  color: #8a6eff;
+}
+
+.show-info-screen .show-wrapper .show-info .show-title img {
+  margin-left: 10px;
+}
+
+.show-info-screen .show-wrapper .show-info .show-overview {
+  margin-bottom: 10px;
+  max-width: 600px;
+  font-size: 18px;
+  color: white;
+  font-weight: 400;
+}
+
+.show-info-screen .show-wrapper .show-info .show-details {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 200px;
+}
+
+.show-info-screen .show-wrapper .show-info .show-details .info {
+  color: #8a6eff;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.show-info-screen .show-wrapper .show-info .show-details .flex-right {
+  width: 50%;
+  color: white;
+}
+
+.show-info-screen .show-wrapper .show-info .show-details .flex-left {
+  width: 50%;
+  color: white;
+}
 /*# sourceMappingURL=index.css.map */

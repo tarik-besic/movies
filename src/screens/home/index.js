@@ -114,7 +114,35 @@ const Home = () => {
       }
     }
     else {
-      FavoritesApi.get(session_id)
+      switch (select) {
+        case 1:
+          FavoritesApi.getFavorites('movies', session_id, append)
+            .then((res) => {
+              setData((data) => {
+                if (append) {
+                  let newData = [...data]
+                  Array.prototype.push.apply(newData, res.data.results);
+                  return newData;
+                }
+                return res.data.results
+              })
+            }).catch((err) => { console.log(err) })
+          break;
+        case 2:
+          FavoritesApi.getFavorites('tv', session_id, append)
+            .then((res) => {
+              setData((data) => {
+                if (append) {
+                  let newData = [...data]
+                  Array.prototype.push.apply(newData, res.data.results);
+                  return newData;
+                }
+                return res.data.results
+              })
+            }).catch((err) => { console.log(err) })
+          break;
+      }
+
     }
   }
 
@@ -197,7 +225,7 @@ const Home = () => {
     }
     else {
       setSelect(1);
-      FavoritesApi.getFavorites('movies',session_id).then((res) => { setData(res.data.results) }).catch((err) => { console.log(err) })
+      FavoritesApi.getFavorites('movies', session_id).then((res) => { setData(res.data.results) }).catch((err) => { console.log(err) })
     }
   }, [option])
 
@@ -208,7 +236,7 @@ const Home = () => {
     else if (option === "shows")
       TvShowsApi.page = 1;
     else
-      console.log("Favorites page 1")
+      FavoritesApi.page = 1;
     makeRequest();
   }, [select])
 
@@ -234,7 +262,7 @@ const Home = () => {
         }
       </div>
       <div className="tabbar">
-        {option === "movies" ? renderMovieOptions() : option==="shows" ? renderShowOptions() : session_id && renderFavoritesOptions()}
+        {option === "movies" ? renderMovieOptions() : option === "shows" ? renderShowOptions() : session_id && renderFavoritesOptions()}
       </div>
 
       <div className="content">
