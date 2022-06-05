@@ -1,11 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import MoviesApi from '../../api/movies'
+import FavoritesApi from '../../api/favorites'
 import Star from "../../assets/images/star.png"
+import Heart from "../../assets/images/heart.png"
+import MyContext from '../../context/index'
 
 const MovieInfo = () => {
+  const { session_id, favorites } = useContext(MyContext);
   const params = useParams();
-  const [data, setData] = useState([])
+  const [favorite, setFavorite] = useState(false)
+  const [data, setData] = useState(null)
 
   useEffect(() => {
 
@@ -18,11 +23,15 @@ const MovieInfo = () => {
       }
     }
 
-    makeReq()
-    return () => {
-
+    if (!data)
+      makeReq()
+    else {
+      if (favorites.includes(data.id)) {
+        setFavorite(true)
+      }
     }
-  }, [])
+  }, [data])
+
   console.log(data);
   return (
     <div className='screen movie-info-screen'>
@@ -35,10 +44,23 @@ const MovieInfo = () => {
           :
           <img src={`${process.env.REACT_APP_BACKEND_IMG_URL}/${data?.backdrop_path}`} alt="poster-img" className='cover-img' />
         }
+
       </div>
       <div className="movie-wrapper">
-        <div className="movie" >
+        <div className="img-wrapper">
           <img className='img' alt='card-img' src={`${process.env.REACT_APP_BACKEND_IMG_URL}/${data?.poster_path}`} />
+          {session_id
+            && <div className={`favorite ${favorite ? 'added' : ""}`} onClick={async () => {
+              if (favorite) {
+                const res = await FavoritesApi.markFavorite('movie', data.id, session_id, false)
+                setFavorite(false)
+              } else {
+                const res = await FavoritesApi.markFavorite('movie', data.id, session_id, true)
+                setFavorite(true)
+              }
+
+            }}>{favorite ? "Remove From Favorites" : "Mark As Favorite"}</div>}
+
         </div>
         <div className="movie-info">
           <div className="movie-title">
@@ -65,7 +87,7 @@ const MovieInfo = () => {
               </div>
               <div className="popularity">
                 <div className="info">Popularity</div>
-                <p>{data.popularity}</p>
+                <p>{data?.popularity}</p>
               </div>
             </div>
             <div className="flex-right">
@@ -87,11 +109,9 @@ const MovieInfo = () => {
                   })}
                 </p>
               </div>
-
             </div>
           </div>
         </div>
-
       </div>
     </div >
   )

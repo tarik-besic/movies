@@ -1,7 +1,6 @@
 import axios from "axios";
 class Request {
     static DefaultSettings = {
-        Protocol: "https",
         BaseUrl: process.env.REACT_APP_BACKEND_URL,
         Headers: {
             "Content-Type": "application/json",
@@ -11,22 +10,22 @@ class Request {
     static basic(
         method,
         url,
-        page,
         data = null,
+        session_id = null,
+        page = null,
     ) {
         return axios({
             method: method,
-            url: `${this.DefaultSettings.Protocol}://${this.DefaultSettings.BaseUrl}${url}?api_key=${process.env.REACT_APP_API_KEY}${page!=null? `&page=${page}` : "" }`,
+            url: `https://${this.DefaultSettings.BaseUrl}${url}?api_key=${process.env.REACT_APP_API_KEY}${session_id ? `&session_id=${session_id}` : ""}${page != null ? `&page=${page}` : ""}`,
             data: data
         });
     }
 
-    static get(url = {}, page=null) {
-        console.log("Page",page);
-        return this.basic("GET", url, page);
+    static get(url = {}, session_id, page) {
+        return this.basic("GET", url, null, session_id, page);
     }
-    static post(url, data = {}) {
-        return this.basic("POST", url, data);
+    static post(url, data = {}, session_id = null) {
+        return this.basic("POST", url, data, session_id);
     }
     static delete(url, data = {}) {
         return this.basic("DELETE", url, data);

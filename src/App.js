@@ -3,11 +3,12 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Home from "./screens/home"
 import MovieInfo from "./screens/movieInfo/index"
 import ShowInfo from "./screens/showInfo/index"
-import Login from "./screens/login/index"
+import Login from "./screens/login/login"
+import { ContextProvider } from "./context"
 
 const App = () => {
   return (
-    <div className="App">
+    <ContextProvider>
       <BrowserRouter>
         <Routes>
           <Route path='/login' element={<Login />} />
@@ -17,8 +18,8 @@ const App = () => {
           {/* <Route path='*' element={<NotFound />} /> */}
         </Routes>
       </BrowserRouter>
-    </div>
+    </ContextProvider>
   );
-} 
+}
 
 export default App;
