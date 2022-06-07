@@ -7,14 +7,20 @@ class TvShowsApi {
     static getShow(id) {
         return Request.get(`${this.path}/${id}`);
     }
-    static getPopular() {
-        return Request.get(`${this.path}/popular`, this.page);
+    static getPopular(append = false) {
+        if (append)
+            return Request.get(`${this.path}/popular`, null, this.page);
+        return Request.get(`${this.path}/popular`);
     }
-    static getTopRated() {
-        return Request.get(`${this.path}/top_rated`, this.page);
+    static getTopRated(append = false) {
+        if (append)
+            return Request.get(`${this.path}/top_rated`, null, this.page);
+        return Request.get(`${this.path}/top_rated`);
     }
-    static getOnTheAir() {
-        return Request.get(`${this.path}/on_the_air`, this.page);
+    static getOnTheAir(append = false) {
+        if (append)
+            return Request.get(`${this.path}/on_the_air`, null, this.page);
+        return Request.get(`${this.path}/on_the_air`);
     }
 }
 

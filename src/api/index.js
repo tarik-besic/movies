@@ -13,16 +13,18 @@ class Request {
         data = null,
         session_id = null,
         page = null,
+        query=null
     ) {
         return axios({
             method: method,
-            url: `https://${this.DefaultSettings.BaseUrl}${url}?api_key=${process.env.REACT_APP_API_KEY}${session_id ? `&session_id=${session_id}` : ""}${page != null ? `&page=${page}` : ""}`,
+            url: `https://${this.DefaultSettings.BaseUrl}${url}?api_key=${process.env.REACT_APP_API_KEY}${session_id ? `&session_id=${session_id}` : ""}${query ? `&query=${query}` : ""}${page != null ? `&page=${page}` : ""}`,
             data: data
         });
     }
 
-    static get(url = {}, session_id, page) {
-        return this.basic("GET", url, null, session_id, page);
+    static get(url = {}, session_id, page,query=null) {
+
+        return this.basic("GET", url, null, session_id, page,query);
     }
     static post(url, data = {}, session_id = null) {
         return this.basic("POST", url, data, session_id);
