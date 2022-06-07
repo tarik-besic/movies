@@ -31,9 +31,6 @@ export function ContextProvider({ children }) {
     useEffect(() => {
         //TODO get current session
         const id = localStorage.getItem('session_id')
-        if (!id) {
-            alert("Ouf nema sessije")
-        }
         setSession_id(id)
     }, []);
 
