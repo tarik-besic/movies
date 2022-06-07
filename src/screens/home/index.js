@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, useRef } from 'react'
+import React, { useEffect, useContext } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import Card from '../../components/card'
 import MoviesApi from "../../api/movies"
@@ -11,7 +11,6 @@ import SearchImg from "../../assets/images/search.png"
 const Home = () => {
   const navigate = useNavigate();
   const state = useLocation();
-  // console.log("STATE:", state);
   const { session_id, logout, select, setSelect, option, setOption, data, setData, inputRef } = useContext(MyContext);
 
   const makeRequest = (append = false) => {
@@ -224,7 +223,6 @@ const Home = () => {
     }
     setData([])
   }
-    
   }, [])
   
 
@@ -247,14 +245,12 @@ const Home = () => {
   useEffect(() => {
     if (state.state) {
       if (state.state.persist === true) {
-        console.log("Persistam data");
         state.state.persist = false;
         return;
       }
     }
     //in favorites it would crash since there is no search
     if (inputRef.current) {
-      console.log("Cistim te:", state.state);
       inputRef.current.value = ""
       SearchApi.page = 1;
     }
@@ -315,8 +311,6 @@ const Home = () => {
               <img src={SearchImg} onClick={async () => {
                 if (inputRef.current.value == "") return;
 
-                // console.log("Search movie:", inputRef.current.value)
-                // console.log(option);
                 try {
                   const req = await SearchApi.getMedia(inputRef.current.value, option);
                   setData(req.data.results)

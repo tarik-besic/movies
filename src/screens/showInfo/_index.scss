@@ -19,6 +19,7 @@
     .show-wrapper {
         display: flex;
         align-items: center;
+        margin: 10px;
         .img-wrapper{
             max-width: 200px;
             img {
@@ -27,7 +28,10 @@
                 max-height: 350p;
                 height: 350px;
             }
-    
+            h1{
+                cursor: pointer;
+                color: $light-purple;
+            }
             .favorite {
                 font-size: 18px;
                 font-weight: bold;
@@ -36,8 +40,9 @@
                 width: 100%;
                 text-align: center;
                 border-radius: 5px;
-                // margin-top: 10px;
                 cursor: pointer;
+                margin: 10px 0;
+                margin-bottom: 15px;
             }
             .added{
                 background-color: $light-gray;
@@ -88,4 +93,19 @@
 
         }
     }
+}
+
+
+@media only screen and(max-width:550px) {
+
+    .show-info-screen {
+        .show-wrapper {
+            display: flex;
+            flex-direction: column;
+        }
+        .tabbar{
+            flex-direction: column;
+        }
+    }
+
 }

@@ -1,12 +1,11 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams ,useNavigate} from 'react-router-dom'
 import MoviesApi from '../../api/movies'
 import FavoritesApi from '../../api/favorites'
-import Star from "../../assets/images/star.png"
-import Heart from "../../assets/images/heart.png"
 import MyContext from '../../context/index'
 
 const MovieInfo = () => {
+  const navigate = useNavigate();
   const { session_id, favorites } = useContext(MyContext);
   const params = useParams();
   const [favorite, setFavorite] = useState(false)
@@ -32,14 +31,15 @@ const MovieInfo = () => {
     }
   }, [data])
 
-  console.log(data);
   return (
     <div className='screen movie-info-screen'>
 
       <div className="cover">
         {data?.video ?
           <div className='trailer'>
-            { }
+            {
+              //video here
+            }
           </div>
           :
           <img src={`${process.env.REACT_APP_BACKEND_IMG_URL}/${data?.backdrop_path}`} alt="poster-img" className='cover-img' />
@@ -48,6 +48,18 @@ const MovieInfo = () => {
       </div>
       <div className="movie-wrapper">
         <div className="img-wrapper">
+        <h1
+            onClick={() => {
+              navigate('/', {
+                state:
+                {
+                  persist: true,
+                  used:false
+                }
+              })
+            }}>
+            Go Back
+          </h1>
           <img className='img' alt='card-img' src={`${process.env.REACT_APP_BACKEND_IMG_URL}/${data?.poster_path}`} />
           {session_id
             && <div className={`favorite ${favorite ? 'added' : ""}`} onClick={async () => {

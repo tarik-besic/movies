@@ -19,15 +19,21 @@
     .movie-wrapper {
         display: flex;
         align-items: center;
-        .img-wrapper{
+
+        .img-wrapper {
             max-width: 200px;
+
             img {
                 width: 200px;
                 max-width: 200px;
                 max-height: 350p;
                 height: 350px;
             }
-    
+
+            h1{
+                cursor: pointer;
+                color: $light-purple;
+            }
             .favorite {
                 font-size: 18px;
                 font-weight: bold;
@@ -36,10 +42,11 @@
                 width: 100%;
                 text-align: center;
                 border-radius: 5px;
-                // margin-top: 10px;
+                margin: 10px 0;
                 cursor: pointer;
             }
-            .added{
+
+            .added {
                 background-color: $light-gray;
             }
         }
@@ -88,4 +95,18 @@
 
         }
     }
+}
+
+@media only screen and(max-width:550px) {
+
+    .movie-info-screen {
+        .movie-wrapper {
+            display: flex;
+            flex-direction: column;
+        }
+        .tabbar{
+            flex-direction: column;
+        }
+    }
+
 }
