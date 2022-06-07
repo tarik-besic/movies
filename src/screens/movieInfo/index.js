@@ -6,43 +6,43 @@ import MyContext from '../../context/index'
 
 const MovieInfo = () => {
   const navigate = useNavigate();
-  const { session_id, favorites } = useContext(MyContext);
+  const { session_id, favorites,setFavorites,setData} = useContext(MyContext);
   const params = useParams();
   const [favorite, setFavorite] = useState(false)
-  const [data, setData] = useState(null)
+  const [movieData, setMovieData] = useState(null)
 
   useEffect(() => {
 
     const makeReq = async () => {
       try {
         const req = await MoviesApi.getMovie(params.id);
-        setData(req.data)
+        setMovieData(req.data)
       } catch (err) {
         console.log(err)
       }
     }
 
-    if (!data)
+    if (!movieData)
       makeReq()
     else {
-      if (favorites.includes(data.id)) {
+      if (favorites.includes(movieData.id)) {
         setFavorite(true)
       }
     }
-  }, [data])
+  }, [movieData])
 
   return (
     <div className='screen movie-info-screen'>
 
       <div className="cover">
-        {data?.video ?
+        {movieData?.video ?
           <div className='trailer'>
             {
               //video here
             }
           </div>
           :
-          <img src={`${process.env.REACT_APP_BACKEND_IMG_URL}/${data?.backdrop_path}`} alt="poster-img" className='cover-img' />
+          <img src={`${process.env.REACT_APP_BACKEND_IMG_URL}/${movieData?.backdrop_path}`} alt="poster-img" className='cover-img' />
         }
 
       </div>
@@ -60,14 +60,25 @@ const MovieInfo = () => {
             }}>
             Go Back
           </h1>
-          <img className='img' alt='card-img' src={`${process.env.REACT_APP_BACKEND_IMG_URL}/${data?.poster_path}`} />
+          <img className='img' alt='card-img' src={`${process.env.REACT_APP_BACKEND_IMG_URL}/${movieData?.poster_path}`} />
           {session_id
             && <div className={`favorite ${favorite ? 'added' : ""}`} onClick={async () => {
               if (favorite) {
-                const res = await FavoritesApi.markFavorite('movie', data.id, session_id, false)
+                const res = await FavoritesApi.markFavorite('movie', movieData.id, session_id, false)
                 setFavorite(false)
+                // console.log(movieData.id);
+                setData((data)=>{
+                  console.log(data);
+                  const arr= data.filter((movie)=>{
+                    console.log(movie);
+                    return movie.id!=movieData.id
+                  })
+                  console.log("Nova movieData:",arr);
+                  return arr
+                })
               } else {
-                const res = await FavoritesApi.markFavorite('movie', data.id, session_id, true)
+                const res = await FavoritesApi.markFavorite('movie', movieData.id, session_id, true)
+                setFavorites((favorites)=>{return [...favorites,movieData.id]})
                 setFavorite(true)
               }
 
@@ -76,10 +87,10 @@ const MovieInfo = () => {
         </div>
         <div className="movie-info">
           <div className="movie-title">
-            {data?.title}
+            {movieData?.title}
           </div>
           <div className="movie-overview">
-            {data?.overview}
+            {movieData?.overview}
           </div>
           <div className="movie-details">
             <div className="flex-left">
@@ -88,33 +99,33 @@ const MovieInfo = () => {
                   Release Date
                 </div>
                 <p>
-                  {data?.release_date}
+                  {movieData?.release_date}
                 </p>
                 <div className="movie-rating">
                   <div className='info'>Movie Rating</div>
                   <p>
-                    {data?.vote_average}
+                    {movieData?.vote_average}
                   </p>
                 </div>
               </div>
               <div className="popularity">
                 <div className="info">Popularity</div>
-                <p>{data?.popularity}</p>
+                <p>{movieData?.popularity}</p>
               </div>
             </div>
             <div className="flex-right">
               <div className="budget">
                 <div className='info'>Budget</div>
-                <p>${data?.revenue?.toLocaleString()}</p>
+                <p>${movieData?.revenue?.toLocaleString()}</p>
               </div>
               <div className="time">
                 <div className='info'>Running time</div>
-                <p>{data?.runtime}</p>
+                <p>{movieData?.runtime}</p>
               </div>
               <div className="genres-wrapper">
                 <div className='info'>Genres:</div>
                 <p className="genres">
-                  {data?.genres?.map((genre) => {
+                  {movieData?.genres?.map((genre) => {
                     return <span className='genre' key={genre.id}>
                       {genre.name}
                     </span>

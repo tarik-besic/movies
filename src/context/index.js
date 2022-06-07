@@ -11,7 +11,8 @@ const Context = createContext({
     setOption: () => { },
     data: null,
     setData: () => { },
-    inputRef: null
+    inputRef: null,
+    setFavorites:()=>{}
 }
 )
 export function ContextProvider({ children }) {
@@ -84,7 +85,8 @@ export function ContextProvider({ children }) {
         setOption,
         data,
         setData,
-        inputRef
+        inputRef,
+        setFavorites
     }}>{children}</Context.Provider>;
 }
 export default Context;
