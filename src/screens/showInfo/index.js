@@ -1,16 +1,15 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import TvShowsApi from '../../api/tvshows'
 import FavoritesApi from '../../api/favorites'
-import Star from "../../assets/images/star.png"
 import MyContext from '../../context/index'
 
 const ShowInfo = () => {
+  const navigate = useNavigate();
   const { session_id, favorites } = useContext(MyContext);
   const params = useParams();
   const [favorite, setFavorite] = useState(false)
   const [data, setData] = useState(null)
-console.log(favorites);
   useEffect(() => {
 
     const makeReq = async () => {
@@ -47,6 +46,18 @@ console.log(favorites);
       </div>
       <div className="show-wrapper">
         <div className="img-wrapper">
+          <h1
+            onClick={() => {
+              navigate('/', {
+                state:
+                {
+                  persist: true,
+                  used:false
+                }
+              })
+            }}>
+            GO BACK
+          </h1>
           <img className='img' alt='card-img' src={`${process.env.REACT_APP_BACKEND_IMG_URL}/${data?.poster_path}`} />
           {session_id
             && <div className={`favorite ${favorite ? 'added' : ""}`} onClick={async () => {

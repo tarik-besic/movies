@@ -1,18 +1,18 @@
-import React, { useEffect, useState, useContext } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect, useState, useContext, useRef } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
 import Card from '../../components/card'
 import MoviesApi from "../../api/movies"
 import TvShowsApi from '../../api/tvshows'
+import SearchApi from '../../api/search'
 import MyContext from '../../context/index'
 import FavoritesApi from '../../api/favorites'
+import SearchImg from "../../assets/images/search.png"
 
 const Home = () => {
   const navigate = useNavigate();
-  const { session_id, logout } = useContext(MyContext);
-  // console.log(context)
-  const [select, setSelect] = useState(1);
-  const [option, setOption] = useState("movies");
-  const [data, setData] = useState([])
+  const state = useLocation();
+  // console.log("STATE:", state);
+  const { session_id, logout, select, setSelect, option, setOption, data, setData, inputRef } = useContext(MyContext);
 
   const makeRequest = (append = false) => {
     if (option === "movies") {
@@ -214,7 +214,51 @@ const Home = () => {
       </div>
     </>
   }
+
   useEffect(() => {
+    
+  if(state.state){
+    if(state.state.persist){
+      console.log(state.state.persist);
+      return;
+    }
+    setData([])
+  }
+    
+  }, [])
+  
+
+  useEffect(() => {
+    console.log("Making request");
+    if (option === "movies")
+      MoviesApi.page = 1;
+    else if (option === "shows")
+      TvShowsApi.page = 1;
+    else
+      FavoritesApi.page = 1;
+    if (state.state) {
+      if (state.state.persist === true) {
+        return;
+      }
+    }
+    makeRequest();
+  }, [select])
+
+  useEffect(() => {
+    if (state.state) {
+      if (state.state.persist === true) {
+        console.log("Persistam data");
+        state.state.persist = false;
+        return;
+      }
+    }
+    //in favorites it would crash since there is no search
+    if (inputRef.current) {
+      console.log("Cistim te:", state.state);
+      inputRef.current.value = ""
+      SearchApi.page = 1;
+    }
+    console.log("Opet idem da fetcham");
     if (option === "movies") {
       MoviesApi.getNowPlaying().then((res) => { setData(res.data.results) }).catch((err) => { console.log(err) })
       setSelect(1)
@@ -229,23 +273,16 @@ const Home = () => {
     }
   }, [option])
 
-  useEffect(() => {
-    console.log("select effect");
-    if (option === "movies")
-      MoviesApi.page = 1;
-    else if (option === "shows")
-      TvShowsApi.page = 1;
-    else
-      FavoritesApi.page = 1;
-    makeRequest();
-  }, [select])
-
   return (
     <div className='screen home-screen'>
       <div className='header'>
         <div className="links">
-          <div className={`header-link ${option === "movies" ? "active" : ''}`} onClick={() => setOption("movies")}>Movies</div>
-          <div className={`header-link ${option === "shows" ? "active" : ''}`} onClick={() => setOption("shows")}>Tv Shows</div>
+          <div className={`header-link ${option === "movies" ? "active" : ''}`} onClick={() => {
+            setOption("movies")
+          }}>Movies</div>
+          <div className={`header-link ${option === "shows" ? "active" : ''}`} onClick={() => {
+            setOption("shows")
+          }}>Tv Shows</div>
           {session_id
             && <div
               className={`header-link ${option === "favorites" ? "active" : ''}`}
@@ -254,15 +291,43 @@ const Home = () => {
             </div>
           }
         </div>
-
-        <h5 style={{ color: "#fff" }}>{session_id}</h5>
         {session_id
-          ? <div className="btn-red" onClick={logout}>Logout</div>
-          : <div className="btn" onClick={() => { navigate("/login") }}>Login</div>
+          ? <div className="header-link red" onClick={logout}>Logout</div>
+          : <div className="header-link green" onClick={() => { navigate("/login") }}>Login</div>
         }
       </div>
       <div className="tabbar">
         {option === "movies" ? renderMovieOptions() : option === "shows" ? renderShowOptions() : session_id && renderFavoritesOptions()}
+
+        {option !== "favorites"
+          && <div className='input-wrapper'>
+            <input type="text"
+              onChange={(ev) => {
+                inputRef.current.value = ev.target.value;
+                inputRef.current.lastValue = ev.target.value;
+              }}
+              placeholder="Search..."
+              ref={inputRef.current.input}
+              defaultValue={inputRef.current.lastValue}
+            />
+
+            <div className='img-wrapper'>
+              <img src={SearchImg} onClick={async () => {
+                if (inputRef.current.value == "") return;
+
+                // console.log("Search movie:", inputRef.current.value)
+                // console.log(option);
+                try {
+                  const req = await SearchApi.getMedia(inputRef.current.value, option);
+                  setData(req.data.results)
+                  // console.log(req);
+                } catch (error) {
+                  console.log(error);
+                }
+              }} />
+            </div>
+          </div>
+        }
       </div>
 
       <div className="content">
@@ -270,15 +335,42 @@ const Home = () => {
           return <Card data={item} key={id} />
         })}
       </div>
-      <div className="load" onClick={() => {
-        if (option === "movies") {
-          MoviesApi.page += 1;
-        } else {
-          TvShowsApi.page += 1;
-        }
-        makeRequest(true)
-      }}>
-        Load More..
+      <div className="load">
+        <div
+          className='btn-load'
+          onClick={async () => {
+            if (option == "favorites") {
+              FavoritesApi.page += 1;
+              makeRequest(true)
+            } else if (option === "movies") {
+              MoviesApi.page += 1;
+            } else {
+              TvShowsApi.page += 1;
+            }
+            if (inputRef.current?.value == "")
+              makeRequest(true)
+            else {
+              SearchApi.page += 1;
+              try {
+                console.log("SENDAM DATA:", {
+                  query: inputRef.current.value,
+                  option,
+                  append: true
+                });
+                const req = await SearchApi.getMedia(inputRef.current.value, option, true);
+                setData((data) => {
+                  let newData = [...data]
+                  Array.prototype.push.apply(newData, req.data.results);
+                  return newData;
+                })
+              } catch (error) {
+                console.log(error);
+              }
+            }
+          }}
+        >
+          Load More..
+        </div>
       </div>
     </div>
   )

@@ -100,13 +100,23 @@ body {
 }
 
 .home-screen {
-  background-color: #4a4658;
+  background-color: #363434;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
 
 .home-screen .header {
   width: 100%;
   height: 50px;
-  background-color: #1c1b24;
+  background-color: #363434;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -116,7 +126,6 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  padding: 0 40px;
 }
 
 .home-screen .header .links {
@@ -127,33 +136,111 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  width: 100%;
+  height: 100%;
 }
 
-.home-screen .header .links .header-link {
+.home-screen .header .header-link {
   cursor: pointer;
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   padding: 5px;
+  -webkit-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+          box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
   font-size: 18px;
   font-weight: bold;
 }
 
-.home-screen .header .btn {
-  background-color: #01d277;
-  padding: 5px 10px;
-  border-radius: 5px;
-  font-size: 16px;
-  font-weight: bold;
-  color: black;
-  cursor: pointer;
+.home-screen .header .red {
+  background-color: #d04136;
+  max-width: 200px;
 }
 
-.home-screen .header .btn-red {
-  background-color: #d04136;
-  padding: 5px 10px;
-  border-radius: 5px;
-  font-size: 16px;
-  font-weight: bold;
-  color: black;
+.home-screen .header .green {
+  background-color: #01d277;
+  max-width: 200px;
+}
+
+.home-screen .tabbar {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 10px 0;
+}
+
+.home-screen .tabbar .link {
   cursor: pointer;
+  width: 100%;
+  max-width: 200px;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 5px;
+  -webkit-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+          box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.home-screen .tabbar .input-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  background-color: white;
+  border-radius: 5px;
+  border: 1px solid gray;
+  height: 32px;
+}
+
+.home-screen .tabbar .input-wrapper input {
+  border: none;
+  padding: 5px;
+  outline: none;
+}
+
+.home-screen .tabbar .input-wrapper .img-wrapper {
+  background-color: #8a6eff;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding: 0 5px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.home-screen .tabbar .input-wrapper .img-wrapper img:hover {
+  background: #8a6eff;
 }
 
 .home-screen .content {
@@ -168,14 +255,32 @@ body {
           justify-content: center;
 }
 
-.home-screen .active {
-  color: white;
+.home-screen .load {
+  padding: 20px 0;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
-.home-screen .load {
-  color: #01d277;
+.home-screen .load .btn-load {
+  border: 1px solid #8a6eff;
+  padding: 25px 50px;
+  color: #8a6eff;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+.home-screen .active {
+  color: white;
   text-align: center;
-  padding: 20px 0;
+  background-color: #8a6eff;
 }
 
 .movie-info-screen {
@@ -189,7 +294,7 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  background-color: #1c1b24;
+  background-color: #363434;
 }
 
 .movie-info-screen .cover {
@@ -238,7 +343,7 @@ body {
 }
 
 .movie-info-screen .movie-wrapper .img-wrapper .added {
-  background-color: #4a4658;
+  background-color: #464343;
 }
 
 .movie-info-screen .movie-wrapper .movie-info {
@@ -297,7 +402,7 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  background-color: #1c1b24;
+  background-color: #363434;
 }
 
 .show-info-screen .cover {
@@ -346,7 +451,7 @@ body {
 }
 
 .show-info-screen .show-wrapper .img-wrapper .added {
-  background-color: #4a4658;
+  background-color: #464343;
 }
 
 .show-info-screen .show-wrapper .show-info {
